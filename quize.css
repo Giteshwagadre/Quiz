@@ -1,0 +1,32 @@
+body
+{
+	background:lightgreen;	
+	color:#fff;
+	font-weight:'arial',sans-serif;
+	font-size:14px;
+}
+#container
+{
+	width:60%;
+	background: black;
+	margin:20px auto;
+	padding: 25px;
+	border-radius: 20px;
+  
+}
+#h1
+{
+	text-align: center;
+	border-bottom: 2px dashed #fff;
+	padding-bottom: 15px;
+}
+input[type='submit']
+{
+	background-color:gree;
+	border-radiu: 500px ;
+	cursor:pointer;
+}
+section
+{
+	min-height: 400px;
+}

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: quize-deployment
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: quize
+
+  template:
+    metadata:
+      labels:
+        app: quize
+
+    spec:
+      containers:
+      - name: quize-container
+        image: 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:10
+        ports:
+        - containerPort: 80

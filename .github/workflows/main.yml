@@ -64,3 +64,4 @@ jobs:
           kubectl get deployment
           kubectl get pods -o wide
           kubectl get svc
+          kubectl get nodes -o wide

@@ -37,10 +37,14 @@ jobs:
         run: |
           kubectl get nodes
 
-      # - name: Log in to Amazon ECR
-      #   run: |
-      #     aws ecr get-login-password --region <your-region> | docker login --username AWS --password-stdin <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com
+      - name: Log in to Amazon ECR
+        run: |
+          aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 654081960876.dkr.ecr.ap-south-1.amazonaws.com
 
+      - name: Verify ECR Access
+        run: |
+          aws ecr describe-repositories --region ap-south-1
+          
       # - name: Build Docker image
       #   run: |
       #     docker build -t <your-image-name> .

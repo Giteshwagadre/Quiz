@@ -48,7 +48,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t quize .
-          docker tag quize:latest 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:latest
+          docker tag quize:latest 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:${{ github.run_number }}
 
       - name: Push to ECR
         run: |

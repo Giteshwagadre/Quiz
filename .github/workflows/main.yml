@@ -58,3 +58,9 @@ jobs:
         run: |
           kubectl apply -f kubernetes/deployment.yml
           kubectl apply -f kubernetes/service.yml
+
+      - name: Verify Deployment
+        run: |
+          kubectl get deployment
+          kubectl get pods -o wide
+          kubectl get svc

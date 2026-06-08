@@ -45,14 +45,14 @@ jobs:
         run: |
           aws ecr describe-repositories --region ap-south-1
           
-      # - name: Build Docker image
-      #   run: |
-      #     docker build -t <your-image-name> .
-      #     docker tag <your-image-name>:latest <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com/<your-image-name>:latest
+      - name: Build Docker image
+        run: |
+          docker build -t quize .
+          docker tag quize:latest 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:latest
 
-      # - name: Push to ECR
-      #   run: |
-      #     docker push <your-aws-account-id>.dkr.ecr.<your-region>.amazonaws.com/<your-image-name>:latest
+      - name: Push to ECR
+        run: |
+            docker push 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:latest
 
       # - name: Deploy to EKS
       #   run: |

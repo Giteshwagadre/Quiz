@@ -29,9 +29,13 @@ jobs:
         run: |
           aws sts get-caller-identity
 
-      # - name: Update kubeconfig
-      #   run: |
-      #     aws eks update-kubeconfig --name <your-cluster-name> --region <your-region>
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig --name my-eks-cluster --region ap-south-1
+
+      - name: Verify EKS Access
+        run: |
+          kubectl get nodes
 
       # - name: Log in to Amazon ECR
       #   run: |

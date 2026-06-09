@@ -91,5 +91,6 @@ jobs:
           kubectl get svc
           kubectl get nodes -o wide
           kubectl get pods -n kube-system
+          kubectl describe pod my-deployment-np-b5b545789-4hhnb
 
           

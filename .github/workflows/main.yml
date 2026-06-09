@@ -5,6 +5,9 @@ on:
     branches:
       - master
 
+permissions:
+  contents: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -57,6 +60,17 @@ jobs:
       - name: Update Deployment Manifest
         run: |
           sed -i "s|image: .*|image: 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:${{ github.run_number }}|g" kubernetes/deployment.yml
+            
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Commit and Push changes
+        run: |
+            git add kubernetes/deployment.yml
+            git commit -m "Update image tag to ${{ github.run_number }}" || echo "No changes to commit"
+            git push
             
       - name: Deploy Resources
         run: |

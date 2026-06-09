@@ -65,11 +65,18 @@ jobs:
         run: |
             docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:${{ github.run_number }}
 
-            
-      - name: Deploy Resources
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+                  
+      - name: Deploy using Helm
         run: |
-          kubectl apply -f kubernetes/deployment.yml
-          kubectl apply -f kubernetes/service.yml
+          helm upgrade --install quize ./helm/quize \
+            --set image.repository=654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize \
+            --set image.tag=${{ github.run_number }}
+
+      - name: Verify Rollout
+        run: |
+            kubectl rollout status deployment/quize-deployment
 
       - name: Verify Deployment
         run: |
@@ -77,5 +84,5 @@ jobs:
           kubectl get pods -o wide
           kubectl get svc
           kubectl get nodes -o wide
-#
+
           

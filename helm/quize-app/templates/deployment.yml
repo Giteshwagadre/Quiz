@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: quize-container
-        image: 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:38
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
         - containerPort: 80
 #

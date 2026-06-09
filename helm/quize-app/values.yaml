@@ -1,1 +1,7 @@
+image:
+  repository: 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize
+  tag: latest
 
+service:
+  type: LoadBalancer
+  port: 80

@@ -58,14 +58,17 @@ jobs:
           docker tag $ECR_REPOSITORY:${{ github.run_number }} \
           $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:${{ github.run_number }}
 
-
       - name: Push to ECR
         run: |
             docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:${{ github.run_number }}
 
       - name: Install Helm
         uses: azure/setup-helm@v4
-                  
+
+      - name: Validate Helm Chart
+        run: |
+          helm lint ./helm/quize-app
+                        
       - name: Deploy using Helm
         run: |
           helm upgrade --install quize ./helm/quize-app \

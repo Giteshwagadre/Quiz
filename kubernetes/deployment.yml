@@ -22,3 +22,4 @@ spec:
         image: 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:32
         ports:
         - containerPort: 80
+#

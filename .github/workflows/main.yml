@@ -12,6 +12,12 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    env:
+      AWS_REGION: ap-south-1
+      ECR_REPOSITORY: quize
+      CLUSTER_NAME: my-eks-cluster
+      ACCOUNT_ID: 654081960876
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,7 +32,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-south-1
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Verify AWS Connection
         run: |
@@ -34,7 +40,7 @@ jobs:
 
       - name: Update kubeconfig
         run: |
-          aws eks update-kubeconfig --name my-eks-cluster --region ap-south-1
+          aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
       - name: Verify EKS Access
         run: |
@@ -42,7 +48,7 @@ jobs:
 
       - name: Log in to Amazon ECR
         run: |
-          aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 654081960876.dkr.ecr.ap-south-1.amazonaws.com
+          aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
 
       - name: Verify ECR Access
         run: |
@@ -50,39 +56,20 @@ jobs:
           
       - name: Build Docker image
         run: |
-          docker build -t quize .
-          docker tag quize:latest 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:${{ github.run_number }}
+          docker build -t $ECR_REPOSITORY:${{ github.run_number }} .
+          docker tag $ECR_REPOSITORY:${{ github.run_number }} \
+          $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:${{ github.run_number }}
+
 
       - name: Push to ECR
         run: |
-            docker push 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:${{ github.run_number }}
+            docker push $ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:${{ github.run_number }}
 
-      - name: Update Deployment Manifest
-        run: |
-          sed -i "s|image: .*|image: 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:${{ github.run_number }}|g" kubernetes/deployment.yml
-            
-      - name: Configure Git
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-
-      - name: Commit and Push changes
-        run: |
-            git add kubernetes/deployment.yml
-            git commit -m "Update image tag to ${{ github.run_number }}" || echo "No changes to commit"
-            git push
             
       - name: Deploy Resources
         run: |
           kubectl apply -f kubernetes/deployment.yml
           kubectl apply -f kubernetes/service.yml
-
-      # - name: Update Image
-      #   run: |
-      #     kubectl set image deployment/quize-deployment \
-      #     quize-container=654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:${{ github.run_number }}
-      
-      #     kubectl rollout status deployment/quize-deployment
 
       - name: Verify Deployment
         run: |

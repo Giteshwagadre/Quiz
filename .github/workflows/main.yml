@@ -54,10 +54,17 @@ jobs:
         run: |
             docker push 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:${{ github.run_number }}
 
-      - name: Deploy to EKS
+      - name: Deploy Resources
         run: |
           kubectl apply -f kubernetes/deployment.yml
           kubectl apply -f kubernetes/service.yml
+
+      - name: Update Image
+        run: |
+          kubectl set image deployment/quize-deployment \
+          quize-container=654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:${{ github.run_number }}
+      
+          kubectl rollout status deployment/quize-deployment
 
       - name: Verify Deployment
         run: |

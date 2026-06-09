@@ -68,6 +68,13 @@ jobs:
       - name: Validate Helm Chart
         run: |
           helm lint ./helm/quize-app
+
+        ##################################
+      - name: delete command
+        run: |
+          kubectl delete svc quize-service
+          kubectl delete deployment quize-deployment
+        ##################################
                         
       - name: Deploy using Helm
         run: |
@@ -75,7 +82,7 @@ jobs:
             --set image.repository=$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY \
             --set image.tag=${{ github.run_number }} \
             --wait
-
+    
       - name: Verify Rollout
         run: |
             kubectl rollout status deployment/quize-deployment

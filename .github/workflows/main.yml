@@ -96,4 +96,4 @@ jobs:
           kubectl describe service quize-service
           kubectl get svc quize-service -o yaml
           aws eks list-clusters
-          #
+          

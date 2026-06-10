@@ -93,6 +93,6 @@ jobs:
           kubectl get nodes -o wide
           kubectl describe service quize-service
           kubectl get svc quize-service -o yaml
-          eksctl get cluster
+          aws eks list-clusters
 
           

@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: quize-container
-        image: 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:47
+        image: 654081960876.dkr.ecr.ap-south-1.amazonaws.com/quize:49
         ports:
         - containerPort: 80
 #

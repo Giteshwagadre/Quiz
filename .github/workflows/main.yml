@@ -85,7 +85,7 @@ jobs:
           helm template quize ./helm/quize-app \
             --set image.repository=$ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY \
             --set image.tag=${{ github.run_number }}
-      ############################
+      #############################
                         
       - name: Deploy using Helm
         run: |

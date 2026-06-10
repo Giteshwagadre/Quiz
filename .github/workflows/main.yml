@@ -49,6 +49,17 @@ jobs:
         run: |
           aws eks update-kubeconfig --name ${{ env.CLUSTER_NAME }} --region ${{ env.AWS_REGION }}
 
+      ###################
+      - name: Check kubeconfig
+        run: |
+          kubectl config current-context
+          kubectl config view
+
+      - name: Check EKS token
+        run: |
+          aws eks get-token --cluster-name my-eks-cluster --region ap-south-1
+      ###################
+
       - name: Verify EKS Access
         run: |
           kubectl get nodes

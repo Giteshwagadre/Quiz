@@ -93,5 +93,7 @@ jobs:
           kubectl get pods -o wide
           kubectl get svc
           kubectl get nodes -o wide
-
+          kubectl describe service quize-service
+          kubectl get svc quize-service -o yaml
+          aws eks list-clusters
           #

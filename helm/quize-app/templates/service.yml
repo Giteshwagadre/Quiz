@@ -2,13 +2,33 @@ apiVersion: v1
 kind: Service
 metadata:
   name: quize-service
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
 spec:
   type: LoadBalancer
+  loadBalancerClass: eks.amazonaws.com/nlb
   selector:
     app: quize
   ports:
     - port: 80
       targetPort: 80
+
+
+
+
+
+
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: quize-service
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: quize
+#   ports:
+#     - port: 80
+#       targetPort: 80
 
 
 

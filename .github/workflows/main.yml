@@ -90,5 +90,6 @@ jobs:
           kubectl get pods -o wide
           kubectl get svc
           kubectl get nodes -o wide
+          kubectl describe service quize-service
 #
           

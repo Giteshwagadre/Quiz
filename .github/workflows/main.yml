@@ -89,7 +89,7 @@ jobs:
         run: |
           helm lint ./helm/quize-app
 
-      ###########################
+      ############################
       # optional  # To check which image tag is passing
       - name: Render Helm templates
         run: |

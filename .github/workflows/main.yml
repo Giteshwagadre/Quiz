@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - helm_deployment
+      - GitHub-OIDC
 
 permissions:
   id-token: write
